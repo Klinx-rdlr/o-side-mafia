@@ -1,9 +1,12 @@
 
-
 import java.util.ArrayList;
 
 public class Game extends Maps {
     public ArrayList<String> ProgressBar = new ArrayList<>();
+
+    public boolean isValidInput(String option2) {
+        return option2.equalsIgnoreCase("play");
+    }
     public String progressTracker(){
         int index = 0;
         if(ProgressBar.isEmpty()){
@@ -26,8 +29,9 @@ public class Game extends Maps {
         }
     }
     public void gameInfo() {
+        boolean checker = true;
         int option;
-        String option2;
+        String option2 = null;
         System.out.println("""
             =================================================================================================
             ||                                                                                              ||
@@ -40,45 +44,88 @@ public class Game extends Maps {
 
         System.out.println("Press 1 to continue...");
 
-        option = Integer.parseInt(getInput.nextLine());
-        if (option == 1) {
-            System.out.println("\nTo play, type commands like 'Go left,' 'Dance Right,' or 'Enter Room.' ");
-            System.out.println("Use single or two-word inputs to guide your character.");
+        while(checker) {
+            try {
+                option = Integer.parseInt(getInput.nextLine());
+                if (option == 1) {
+                    System.out.println("\nTo play, type commands like 'Go left,' 'Dance Right,' or 'Enter Room.' ");
+                    System.out.println("Use single or two-word inputs to guide your character.");
+                    checker = false;
+                } else {
+                    System.out.println("Input invalid, try again");
+                }
+            }catch (Exception e){
+                System.out.println("Input invalid, try again");
+            }
         }
 
         System.out.println("Press 1 to continue...");
-        option = Integer.parseInt(getInput.nextLine());
-
-        if (option == 1) {
-            System.out.println("\nYour main goal is to find your lost items and eventually escape the bar.");
-            System.out.println("Type commands that make sense in the context to achieve your objectives.");
+        checker = true;
+        while (checker){
+            try {
+                option = Integer.parseInt(getInput.nextLine());
+                if (option == 1) {
+                    System.out.println("\nYour main goal is to find your lost items and eventually escape the bar.");
+                    System.out.println("Type commands that make sense in the context to achieve your objectives.");
+                    checker = false;
+                }else {
+                    System.out.println("Input invalid, try again");
+                }
+            }catch (Exception e){
+                System.out.println("Input invalid, try again");
+            }
         }
 
         System.out.println("\nType 'Play' to begin your adventure!");
-        option2 = getInput.nextLine();
+        checker = true;
 
-        if (option2.equalsIgnoreCase("play")) {
-            System.out.println("\nHey Bro! Good thing you finally woke up, check yourself dude.");
-            System.out.println("Yes, you lost all of your things! Get inside the bar and search all of your stuff.");
 
-            System.out.println("[1] Go Inside");
-            System.out.println("[2] Exit");
-
-            option = Integer.parseInt(getInput.nextLine());
-            if(option == 1){
-                clearScreen();
-                gameStart();
-                if(ProgressBar.size() == 4){
-                    System.out.println("Finally! You have collected all of your essentials! I thought you'll lose it all in the bar. Now, go home!");
+            while (checker) {
+                try {
+                    option2 = getInput.nextLine();
+                    // Add logic to break the loop when the input is valid
+                    if (isValidInput(option2)) {
+                        checker = false;
+                    } else {
+                        System.out.println("Invalid input, please try again: ");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input, please try again: ");
                 }
             }
-            else if(option == 2){
-                
+
+
+
+
+
+        checker = true;
+
+        while (checker) {
+            if (option2.equalsIgnoreCase("play")) {
+                System.out.println("\nHey Bro! Good thing you finally woke up, check yourself dude.");
+                System.out.println("Yes, you lost all of your things! Get inside the bar and search all of your stuff.");
+
+                System.out.println("[1] Go Inside");
+                System.out.println("[2] Exit");
+                option = Integer.parseInt(getInput.nextLine());
+                if (option == 1) {
+                    clearScreen();
+                    gameStart();
+                    if (ProgressBar.size() == 4) {
+                        System.out.println("Finally! You have collected all of your essentials! I thought you'll lose it all in the bar. Now, go home!");
+                    }
+                    break;
+                } else if (option == 2) {
+                    break;
+                }
+            } else {
+                System.out.println("Input invalid, try again");
             }
         }
     }
 
-        public void gameStart(){
+
+    public void gameStart(){
         while(true) {
             boolean mapFinished = false;
             String mapCheck = progressTracker();
@@ -132,7 +179,7 @@ public class Game extends Maps {
             if(mapFinished){
                 break;
             }
-         }
         }
+    }
 
 }
