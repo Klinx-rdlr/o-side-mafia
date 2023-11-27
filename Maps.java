@@ -1,12 +1,10 @@
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Maps {
     Scanner getInput = new Scanner(System.in);
     public ArrayList<String> mapList = new ArrayList<>();
-    
+
     Maps(){
         mapList.add("Map1");
         mapList.add("Map2");
@@ -22,81 +20,100 @@ public class Maps {
         System.out.println("Rhode Reyes - Documentation Specialist");
         System.out.println("----------------------------------------\n\n");
     }
-    public static void clearScreen() {  
-        System.out.print("\033[H\033[2J");  
-        System.out.flush();  
-    }  
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     public boolean Map1(){
         // 4693
-        int option;
+        int option = 0;
         int drunkLevel = 0;
         int guess = 0;
         boolean firstWin = false;
         boolean secondWin = false;
+        boolean checker = true;
         System.out.println("Okay bro, we're back in the VIP room. You might find something under these tables. Try to remember with your memory! Be aware of your drunk level!");
         System.out.println("Press 1 to continue...");
-        option = Integer.parseInt(getInput.nextLine()); 
 
-        if(option == 1){
-        System.out.println("Challenge: Try to guess the combination!");
-        System.out.println("Combination: 4 _ 9 _ ");
-        System.out.println("\nGuess the First Number:");
-        while(drunkLevel < 101){
-            System.out.println("Your current drunkness level is: " + drunkLevel + " %");
-            guess = getInput.nextInt();
-            if(guess > 6){
-                System.out.println("Lower Number!");
-                drunkLevel += 25;
-            }else if(guess < 6){
-                System.out.println("Higher Number!");
-                drunkLevel += 25;
-            }else{
-                System.out.println("You got the correct number!");
-                drunkLevel = 0;
-                firstWin = true;
-                break;
-            }
-             
-        }
+             option = Integer.parseInt(getInput.nextLine());
+             while(checker) {
+                if (option == 1) {
+                    System.out.println("Challenge: Try to guess the combination!");
+                    System.out.println("Combination: 4 _ 9 _ ");
+                    System.out.println("\nGuess the First Number:");
+                    while (drunkLevel < 101) {
+                        System.out.println("Your current drunkness level is: " + drunkLevel + " %");
+                        while(true){
+                            try{
+                                guess = Integer.parseInt(getInput.nextLine());
+                                break;
+                            }catch (Exception e){
+                                System.out.println("Invalid input, please try again");
+                            }
+                        }
+                        if (guess > 6) {
+                            System.out.println("Lower Number!");
+                            drunkLevel += 25;
+                        } else if (guess < 6) {
+                            System.out.println("Higher Number!");
+                            drunkLevel += 25;
+                        } else {
+                            System.out.println("You got the correct number!");
+                            drunkLevel = 0;
+                            firstWin = true;
+                            break;
+                        }
 
-        if(drunkLevel >= 100){
-            System.out.println("You lost, please try again!");
-        }else{
-            System.out.println("\nGuess the Second Number:");
-            while(drunkLevel < 101) {
-                System.out.println("Your Current Drunkness Level is: " + drunkLevel + " %");
-                guess = getInput.nextInt();
-                if (guess > 3) {
-                    System.out.println("Lower Number!");
-                    drunkLevel += 25;
-                } else if (guess < 3) {
-                    System.out.println("Higher Number!");
-                    drunkLevel += 25;
+                    }
+
+                    if (drunkLevel >= 100) {
+                        System.out.println("You lost, please try again!");
+                        checker = false;
+                    } else {
+                        System.out.println("\nGuess the Second Number:");
+                        while (drunkLevel < 101) {
+                            System.out.println("Your Current Drunkness Level is: " + drunkLevel + " %");
+                            while(true){
+                                try{
+                                    guess = Integer.parseInt(getInput.nextLine());
+                                    break;
+                                }catch (Exception e){
+                                    System.out.println("Invalid input, please try again");
+                                }
+                            }
+                            if (guess > 3) {
+                                System.out.println("Lower Number!");
+                                drunkLevel += 25;
+                            } else if (guess < 3) {
+                                System.out.println("Higher Number!");
+                                drunkLevel += 25;
+                            } else {
+                                System.out.println("You got the correct number!");
+                                System.out.println("You answered the right combination.");
+                                System.out.println("\nHey bro! I think you've found your wallet! Let's keep it up and proceed to the Dance Floor bro so we can find your other belongings.");
+                                secondWin = true;
+                                break;
+                            }
+
+                        }
+
+                        if (drunkLevel >= 100) {
+                            System.out.println("You lost, please try again!");
+                        }
+                        checker = false;
+                        clearScreen();
+                    }
+
+
                 } else {
-                    System.out.println("You got the correct number!");
-                    System.out.println("You answered the right combination.");
-                    System.out.println("\nHey bro! I think you've found your wallet! Let's keep it up and proceed to the Dance Floor bro so we can find your other belongings.");
-                    
-                    secondWin = true;
-                    break;
+                    System.out.println("Don't give up on me yet bro!");
                 }
-                
-            }
-
-            if(drunkLevel >= 100){
-                System.out.println("You lost, please try again!");
-            }
-            clearScreen();
-        }
-
-
+            } 
         
-    }
-        else {
-            System.out.println("Don't give up on me yet bro!");
-        }
-       return firstWin & secondWin;
+
+
+        return firstWin & secondWin;
     }
 
     public boolean Map2(){
@@ -118,7 +135,14 @@ public class Maps {
             guess = getInput.nextLine();
             if(guess.equalsIgnoreCase("Spin Right")){
                 firstWin = true;
-                drunkLevel -= 50;
+                if(drunkLevel > 50){
+                    drunkLevel -= 50;
+                }
+                else if(drunkLevel == 50){
+                    drunkLevel -= 50;
+                }else if(drunkLevel > 0 && drunkLevel <= 25){
+                    drunkLevel -= 25;
+                }
                 break;
             }else{
                 System.out.println("Incorrect try again");
@@ -126,14 +150,21 @@ public class Maps {
             }
         }
 
-        if(firstWin && drunkLevel < 101){
+        if(firstWin){
             System.out.println("\nImagine facing north and turning 90 degrees counter clockwise, which way would you be facing now?");
             while(drunkLevel < 101){
                 System.out.println("Your current drunkness level is: " + drunkLevel);
                 guess = getInput.nextLine();
                 if(guess.equalsIgnoreCase("Dance Left")){
                     secondWin = true;
-                    drunkLevel -= 50;
+                    if(drunkLevel > 50){
+                        drunkLevel -= 50;
+                    }
+                    else if(drunkLevel == 50){
+                        drunkLevel -= 50;
+                    }else if(drunkLevel > 0 && drunkLevel <= 25){
+                        drunkLevel -= 25;
+                    }
                     break;
                 }else{
                     System.out.println("Incorrect try again");
@@ -143,14 +174,21 @@ public class Maps {
         }
 
 
-        if(secondWin  && drunkLevel < 101){
+        if(secondWin){
             System.out.println("\nMove towards the same direction as the clock's hands go when indicating 3 o'clock");
             while(drunkLevel < 101){
                 System.out.println("Your current drunkness level is: " + drunkLevel);
                 guess = getInput.nextLine();
                 if(guess.equalsIgnoreCase("Dance Right")){
                     thirdWin = true;
-                    drunkLevel -= 50;
+                    if(drunkLevel > 50){
+                        drunkLevel -= 50;
+                    }
+                    else if(drunkLevel == 50){
+                        drunkLevel -= 50;
+                    }else if(drunkLevel > 0 && drunkLevel <= 25){
+                        drunkLevel -= 25;
+                    }
                     break;
                 }else{
                     System.out.println("Incorrect try again");
@@ -159,7 +197,7 @@ public class Maps {
             }
         }
 
-        if(thirdWin && drunkLevel < 101){
+        if(thirdWin){
             System.out.println("\nTwist your body in the same direction as the needle moves from 12 o'clock to 6 o'clock on a clock face.");
             while(drunkLevel < 101){
                 System.out.println("Your current drunkness level is: " + drunkLevel);
@@ -200,7 +238,9 @@ public class Maps {
                 guess = getInput.nextLine();
                 if(guess.equalsIgnoreCase("Go Right")){
                     firstWin = true;
-                    drunkLevel -= 25;
+                    if(drunkLevel >= 25){
+                        drunkLevel -= 25;
+                    }
                     break;
                 }else{
                     System.out.println("Incorrect try again");
@@ -216,7 +256,9 @@ public class Maps {
                 guess = getInput.nextLine();
                 if(guess.equalsIgnoreCase("Go Left")){
                     secondWin = true;
-                    drunkLevel -= 25;
+                    if(drunkLevel >= 25){
+                        drunkLevel -= 25;
+                    }
                     break;
                 }else{
                     System.out.println("Incorrect try again");
@@ -233,7 +275,9 @@ public class Maps {
                 guess = getInput.nextLine();
                 if(guess.equalsIgnoreCase("Go Left")){
                     thirdWin = true;
-                    drunkLevel -= 25;
+                    if(drunkLevel >= 25){
+                        drunkLevel -= 25;
+                    }
                     break;
                 }else{
                     System.out.println("Incorrect try again");
@@ -253,14 +297,14 @@ public class Maps {
                     System.out.println("I have some good news for you bro! I think I found a clue for your last item, let's go to the Bartender Area");
                     clearScreen();
                     break;
-                    
+
                 }else{
                     System.out.println("Incorrect try again");
                     drunkLevel += 25;
                 }
             }
         }
-       
+
         return fourthWin;
     }
 
@@ -279,14 +323,14 @@ public class Maps {
         System.out.println("\nAl_on_o");
         while(drunkLevel < 101){
             System.out.println("Your current drunkness level is: " + drunkLevel);
-                guess = getInput.nextLine();
-                if(guess.equalsIgnoreCase("Alfonso")){
-                    firstWin = true;
-                    break;
-                }else{
-                    System.out.println("Incorrect try again");
-                    drunkLevel += 25;
-                }
+            guess = getInput.nextLine();
+            if(guess.equalsIgnoreCase("Alfonso")){
+                firstWin = true;
+                break;
+            }else{
+                System.out.println("Incorrect try again");
+                drunkLevel += 25;
+            }
         }
 
         if(firstWin && drunkLevel < 101){
@@ -341,5 +385,3 @@ public class Maps {
         return fourthWin;
     }
 }
-
-
